@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import Background from '../Components/Background';
 
 interface LoginProps {
@@ -10,14 +11,31 @@ interface LoginProps {
 const Login = ({ navigation }: LoginProps) => {
   const [credentials, setCredentials] = useState({ name: '', email: '', password: '' });
   const [isSigningUp, setIsSigningUp] = useState(false);
+  const scale = useSharedValue(1);
 
   const handleInputChange = (field: string, value: string) => {
     setCredentials(prevState => ({ ...prevState, [field]: value }));
   };
 
   const handleAuthAction = () => {
+    scale.value = withSpring(0);
     isSigningUp ? console.log('Signed up') : navigation.navigate('Welcome');
   };
+
+  const onPressIn = () => {
+    scale.value = withSpring(0);
+  };
+
+
+  const onPressOut = () => {
+    scale.value = withSpring(1);
+  };
+
+  const animatedButtonStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
 
   return (
     <Background>
@@ -52,6 +70,16 @@ const Login = ({ navigation }: LoginProps) => {
         <TouchableOpacity onPress={handleAuthAction} style={styles.button}>
           <Text style={styles.buttonText}>{isSigningUp ? 'Sign Up' : 'Log In'}</Text>
         </TouchableOpacity>
+
+        <Pressable onPressIn={handleAuthAction} onPressOut={onPressOut} style={styles.button}>
+        <Animated.View style={animatedButtonStyle}>
+
+          <Text style={styles.buttonText}>{isSigningUp ? 'Sign Up' : 'Log In'}</Text>
+          </Animated.View>
+
+        </Pressable>
+
+
         
         <Text style={styles.switchText}>
           {isSigningUp ? 'Already have an account?' : 'Don’t have an account?'}{' '}
@@ -67,7 +95,7 @@ const Login = ({ navigation }: LoginProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    marginTop: 110,
     alignItems: 'center',
     padding: 40,
   },
@@ -76,7 +104,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#00796b',
+    color: '#fff',
   },
   input: {
     borderColor: '#ccc',

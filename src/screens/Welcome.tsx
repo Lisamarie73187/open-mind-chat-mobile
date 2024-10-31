@@ -1,8 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
 import Background from '../Components/Background';
 
-export default function Welcome() {
+interface WelcomeProps {
+  navigation: NavigationProp<any>;
+}
+
+export default function Welcome({navigation}: WelcomeProps) {
+  const goToChat = () => {
+    navigation.navigate('Chat')
+  }
+
   return (
     <Background>
       <View style={styles.container}>
@@ -12,7 +21,7 @@ export default function Welcome() {
           Whether you're seeking a moment of peace, a compassionate listener, or a safe space to express your
           thoughts, <Text style={styles.boldText}>Ami</Text> is here to listen and offer support.
         </Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={goToChat}>
           <Text style={styles.buttonText}>Let’s Chat</Text>
         </TouchableOpacity>
       </View>
@@ -24,25 +33,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 100,
     padding: 16,
   },
   welcomeText: {
     fontSize: 32,
-    color: '#0A84FF',
+    color: '#fff',
     marginBottom: 8,
   },
   feelingText: {
     fontSize: 40,
     lineHeight: 48,
     maxWidth: '80%',
-    color: '#0A84FF',
+    color: '#fff',
     textAlign: 'center',
     marginBottom: 16,
   },
   descriptionText: {
     fontSize: 18,
-    color: '#0A84FF',
+    color: '#fff',
     maxWidth: '90%',
     textAlign: 'center',
     marginBottom: 24,
