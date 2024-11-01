@@ -22,15 +22,6 @@ const Login = ({ navigation }: LoginProps) => {
     isSigningUp ? console.log('Signed up') : navigation.navigate('Welcome');
   };
 
-  const onPressIn = () => {
-    scale.value = withSpring(0);
-  };
-
-
-  const onPressOut = () => {
-    scale.value = withSpring(1);
-  };
-
   const animatedButtonStyle = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scale.value }],
@@ -70,16 +61,6 @@ const Login = ({ navigation }: LoginProps) => {
         <TouchableOpacity onPress={handleAuthAction} style={styles.button}>
           <Text style={styles.buttonText}>{isSigningUp ? 'Sign Up' : 'Log In'}</Text>
         </TouchableOpacity>
-
-        <Pressable onPressIn={handleAuthAction} onPressOut={onPressOut} style={styles.button}>
-        <Animated.View style={animatedButtonStyle}>
-
-          <Text style={styles.buttonText}>{isSigningUp ? 'Sign Up' : 'Log In'}</Text>
-          </Animated.View>
-
-        </Pressable>
-
-
         
         <Text style={styles.switchText}>
           {isSigningUp ? 'Already have an account?' : 'Don’t have an account?'}{' '}
