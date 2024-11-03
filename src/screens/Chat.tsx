@@ -60,7 +60,6 @@ const Chat: React.FC = () => {
             <Text style={styles.sendButtonText}>Send</Text>
           </TouchableOpacity>
         </View>
-        {/* <BottomNavigation /> */}
       </View>
   );
 };
@@ -76,6 +75,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     backgroundColor: '#fff',
     marginTop: 10,
+    paddingBottom: 40,
   },
   textInput: {
     flex: 1,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     justifyContent: 'center',
     paddingHorizontal: 15,
-    backgroundColor: '#1ca3c9',
+    backgroundColor: '#2e297e',
     borderRadius: 20,
   },
   sendButtonText: {

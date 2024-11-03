@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
     userBubble: {
         alignSelf: 'flex-end',
-        backgroundColor: '#1ca3c9',
+        backgroundColor:'#2e297e',
         marginRight: 10,
     },
     assistantBubble: {
