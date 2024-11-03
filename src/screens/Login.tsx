@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import Background from '../Components/Background';
 
 interface LoginProps {
@@ -11,22 +10,18 @@ interface LoginProps {
 const Login = ({ navigation }: LoginProps) => {
   const [credentials, setCredentials] = useState({ name: '', email: '', password: '' });
   const [isSigningUp, setIsSigningUp] = useState(false);
-  const scale = useSharedValue(1);
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = useCallback((field: string, value: string) => {
     setCredentials(prevState => ({ ...prevState, [field]: value }));
-  };
+  }, []);
 
-  const handleAuthAction = () => {
-    scale.value = withSpring(0);
-    isSigningUp ? console.log('Signed up') : navigation.navigate('Welcome');
-  };
+  const handleAuthAction = useCallback(() => {
+    isSigningUp ? console.log('Signed up') : navigation.navigate('HomeScreen');
+  }, [isSigningUp, navigation]);
 
-  const animatedButtonStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }],
-    };
-  });
+  const toggleSignUp = useCallback(() => {
+    setIsSigningUp(prevState => !prevState);
+  }, []);
 
   return (
     <Background>
@@ -64,7 +59,7 @@ const Login = ({ navigation }: LoginProps) => {
         
         <Text style={styles.switchText}>
           {isSigningUp ? 'Already have an account?' : 'Don’t have an account?'}{' '}
-          <Text onPress={() => setIsSigningUp(!isSigningUp)} style={styles.linkText}>
+          <Text onPress={toggleSignUp} style={styles.linkText}>
             {isSigningUp ? 'Log in' : 'Sign up'}
           </Text>
         </Text>
@@ -76,7 +71,6 @@ const Login = ({ navigation }: LoginProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 110,
     alignItems: 'center',
     padding: 40,
   },
@@ -85,7 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#fff',
+    color: '#2e297e',
   },
   input: {
     borderColor: '#ccc',
@@ -97,7 +91,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    backgroundColor: '#8bc34a',
+    backgroundColor: '#4e48a8',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
@@ -113,7 +107,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   linkText: {
-    color: '#00796b',
+    color: '#ff8f79',
     fontWeight: 'bold',
     textDecorationLine: 'underline',
   },

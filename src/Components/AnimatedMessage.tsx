@@ -106,7 +106,12 @@ const styles = StyleSheet.create({
         width: 45,
         height: 45,
         borderRadius: 25,
-    }
+    },
+    typingIndicatorContainer: {
+        alignSelf: 'flex-start',
+        margin: 10,
+        padding: 5,
+      },
 });
 
 export default AnimatedMessage;

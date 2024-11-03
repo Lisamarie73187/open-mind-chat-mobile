@@ -7,9 +7,11 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
 import Login from './src/screens/Login';
-import Welcome from './src/screens/Welcome';
 import Chat from './src/screens/Chat';
 import Background from './src/Components/Background';
+import HomeScreen from './src/screens/HomeScreen';
+import BottomNavigation from './src/Components/BottomNavigation';
+import Journal from './src/screens/Journal';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,7 +31,7 @@ function App() {
             headerStyle: { 
               backgroundColor: 'transparent',
              },
-            headerTintColor: '#fff',
+            headerTintColor: '#2e297e',
           }}
         >
           <Stack.Screen 
@@ -39,8 +41,21 @@ function App() {
               title: ""
             }}
             />
-          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen 
+            name="HomeScreen" 
+            component={HomeScreen} 
+            options={{
+                title: ""
+              }}
+              />
           <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen 
+            name="Journal" 
+            component={Journal} 
+            options={{
+                title: "Journal"
+              }}
+              />
         </Stack.Navigator>
       </NavigationContainer>
       </Background>

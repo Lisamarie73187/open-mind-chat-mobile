@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { fetchChatData } from '../api/chatService';
-import Background from '../Components/Background';
 import AnimatedMessage from '../Components/AnimatedMessage';
 import LoadingDots from '../Components/LoadingDots';
 
@@ -17,98 +16,63 @@ const Chat: React.FC = () => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
   const handleSend = async () => {
-    if (input.trim()) {
-      addMessage({ id: Date.now().toString(), text: input.trim(), role: 'user' });
-      setInput('');
-     
-      setIsTyping(true);
-      setTimeout (async () => {
-        const apiResponse: any = await fetchChatData({ message: input, timestamp: new Date().toISOString(), role: 'user' });
-        if (apiResponse) {
-          addMessage({ id: Date.now().toString(), text: apiResponse.response, role: 'assistant' });
-          setIsTyping(false);
-        }
-      }, 2000)
-    
-    }
+    if (!input.trim()) return;
+    addMessage({ id: Date.now().toString(), text: input.trim(), role: 'user' });
+    setInput('');
+    setIsTyping(true);
+
+    setTimeout(async () => {
+      const apiResponse: any = await fetchChatData({ message: input, timestamp: new Date().toISOString(), role: 'user' });
+      if (apiResponse) {
+        addMessage({ id: Date.now().toString(), text: apiResponse.response, role: 'assistant' });
+        setIsTyping(false);
+      }
+    }, 2000);
   };
 
   const addMessage = (newMessage: Message) => {
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      newMessage,
-    ]);
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
   };
 
   return (
-    <Background>
       <View style={styles.container}>
         <FlatList
           data={[...messages].reverse()}
-          renderItem={({ item }) => (
-            <AnimatedMessage message={item.text} role={item.role}/>
-          )}
+          renderItem={({ item }) => <AnimatedMessage message={item.text} role={item.role} />}
           keyExtractor={(item) => item.id}
           inverted
         />
         {isTyping && (
-        <View style={styles.typingIndicatorContainer}>
-          <LoadingDots />
-        </View>
-      )}
+          <View style={styles.typingIndicatorContainer}>
+            <Image source={require('../assets/avatarOne.png')} style={styles.avatarImage} />
+            <LoadingDots />
+          </View>
+        )}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}
             value={input}
             onChangeText={setInput}
             placeholder="Type a message..."
+            onSubmitEditing={handleSend}
           />
           <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
             <Text style={styles.sendButtonText}>Send</Text>
           </TouchableOpacity>
         </View>
+        {/* <BottomNavigation /> */}
       </View>
-    </Background>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  messageContainer: {
-    margin: 10,
-    padding: 10,
-    borderRadius: 10,
-    maxWidth: '80%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  userMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#1ca3c9',
-    marginRight: 15,
-  },
-  userMessageText: {
-    color: '#fff',
-  },
-  assistantMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#fff',
-    marginLeft: 10,
-  },
-  assistantMessageText: {
-    color: '#000',
-  },
-  messageText: {
-    fontSize: 16,
+    backgroundColor: '#e5d8ff',
   },
   inputContainer: {
     flexDirection: 'row',
     padding: 10,
-    borderTopWidth: 1,
     borderColor: '#ccc',
     backgroundColor: '#fff',
     marginTop: 10,
@@ -132,10 +96,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   typingIndicatorContainer: {
-    alignSelf: 'flex-start',
-    // marginLeft: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
     margin: 10,
     padding: 5,
+  },
+  avatarImage: {
+    width: 45,
+    height: 45,
+    borderRadius: 25,
   },
 });
 
