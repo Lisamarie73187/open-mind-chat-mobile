@@ -35,7 +35,6 @@ const Journal: React.FC = () => {
       </ScrollView>
       
     </View>
-    <BottomNavigation />
     </Background>
   );
 };

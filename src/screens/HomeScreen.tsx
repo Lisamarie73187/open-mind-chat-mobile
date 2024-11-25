@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import Background from '../Components/Background';
 import { EmotionButton } from '../Components/EmotionButton'; // Adjust the path as needed
-import BottomNavigation from '../Components/BottomNavigation';
 
 interface WelcomeProps {
   navigation: NavigationProp<any>;
@@ -36,7 +35,6 @@ export default function HomeScreen({ navigation }: WelcomeProps) {
           </TouchableOpacity>
         </View>
       </View>
-      <BottomNavigation />
     </Background>
   );
 }

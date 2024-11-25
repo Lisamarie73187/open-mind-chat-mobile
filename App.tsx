@@ -10,7 +10,6 @@ import Login from './src/screens/Login';
 import Chat from './src/screens/Chat';
 import Background from './src/Components/Background';
 import HomeScreen from './src/screens/HomeScreen';
-import BottomNavigation from './src/Components/BottomNavigation';
 import Journal from './src/screens/Journal';
 
 const Stack = createNativeStackNavigator();
